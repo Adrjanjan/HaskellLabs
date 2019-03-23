@@ -6,11 +6,11 @@ cabal-version: 1.12
 --
 -- hash: 971da613a726f7613e8511496062330f26da58da397ebc0270a3adf5d918c818
 
-name:           FirstLab
+name:           HaskellLabs
 version:        0.1.0.0
-description:    Please see the README on GitHub at <https://github.com/Adrjanjna/FirstLab#readme>
-homepage:       https://github.com/Adrjanjan/FirstLab#readme
-bug-reports:    https://github.com/Adrjanjan/FirstLab/issues
+description:    Please see the README on GitHub at <https://github.com/Adrjanjna/HaskellLabs#readme>
+homepage:       https://github.com/Adrjanjan/HaskellLabs#readme
+bug-reports:    https://github.com/Adrjanjan/HaskellLabs/issues
 author:         Adrian Janakiewicz
 copyright:      2019 Adrian Janakiewicz
 license:        BSD3
@@ -21,41 +21,41 @@ extra-source-files:
 
 source-repository head
   type: git
-  location: https://github.com/Adrjanjan/FirstLab
+  location: https://github.com/Adrjanjan/HaskellLabs
 
 library
   exposed-modules:
       Student
       Tree
   other-modules:
-      Paths_FirstLab
+      Paths_HaskellLabs
   hs-source-dirs:
       src
   build-depends:
       base >=4.7 && <5
   default-language: Haskell2010
 
-executable FirstLab-exe
+executable HaskellLabs-exe
   main-is: Main.hs
   other-modules:
-      Paths_FirstLab
+      Paths_HaskellLabs
   hs-source-dirs:
       app
   ghc-options: -threaded -rtsopts -with-rtsopts=-N
   build-depends:
-      FirstLab
+      HaskellLabs
     , base >=4.7 && <5
   default-language: Haskell2010
 
-test-suite FirstLab-test
+test-suite HaskellLabs-test
   type: exitcode-stdio-1.0
   main-is: Spec.hs
   other-modules:
-      Paths_FirstLab
+      Paths_HaskellLabs
   hs-source-dirs:
       test
   ghc-options: -threaded -rtsopts -with-rtsopts=-N
   build-depends:
-      FirstLab
+      HaskellLabs
     , base >=4.7 && <5
   default-language: Haskell2010
