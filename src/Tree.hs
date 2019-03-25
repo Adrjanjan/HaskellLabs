@@ -7,11 +7,9 @@ data Tree a = Leaf
             , right::Tree a
             } deriving(Show, Eq)
 
---data Tree a = Leaf | Branch a (Tree a) (Tree a)
-
-drzewo = Branch 0 Leaf Leaf
-drzewo1 = Branch 0 (Branch (-1) Leaf Leaf) Leaf
-drzewo2 = Branch 8 (Branch 4  (Branch 2 Leaf Leaf)
+t1 = Branch 0 Leaf Leaf
+t2 = Branch 0 (Branch (-1) Leaf Leaf) Leaf
+t3 = Branch 8 (Branch 4  (Branch 2 Leaf Leaf)
                               (Branch 7 Leaf Leaf))
                    (Branch 11 (Branch 9 Leaf Leaf)
                               (Branch 13 Leaf Leaf))
@@ -50,12 +48,12 @@ insert (Branch v l r) to_put | to_put < v   = Branch v (insert l to_put) r
                              | to_put >= v  = Branch v l (insert r to_put)
 -------------------------------------------
 -- | Check Tree emptiness
-isEmpty:: Tree a -> Bool
+isEmpty :: Tree a -> Bool
 isEmpty Branch {} = False
 isEmpty Leaf = True
 -------------------------------------------
 -- | Check if Tree is binary
-isBinary:: (Eq a, Ord a) => Tree a -> Bool
+isBinary :: (Eq a, Ord a) => Tree a -> Bool
 isBinary Leaf = True
 isBinary (Branch v l r) = (l == Leaf || value l < v) && (r == Leaf || value r >= v) && isBinary l && isBinary r
 -------------------------------------------
@@ -68,7 +66,7 @@ search (Branch v l r) to_find | to_find == v = True
 
 -------------------------------------------
 -- | Find Tree height
-height:: Tree a -> Int
+height :: Tree a -> Int
 height Leaf = 0
 height (Branch _ l r) = 1 + max (height l) (height r)
 
@@ -81,7 +79,55 @@ isBalanced (Branch _ l r)
 
 -------------------------------------------
 -- | Parse Tree to String
-toString:: Show a => Tree a -> String
+toString :: Show a => Tree a -> String
 toString Leaf = ""
 toString (Branch v l r) = show v ++ " (" ++ toString l ++ ", " ++ toString r ++ ")"
+
+-------------------------------------------
+-- | Return number of Branches
+nnodes :: Tree a -> Int
+nnodes Leaf = 0;
+nnodes (Branch _ l r) = 1 + nnodes l + nnodes r
+
+-------------------------------------------
+-- | Sum values in Branches
+nsum :: Num a => Tree a -> a
+nsum Leaf = 0;
+nsum (Branch v l r) = v + nsum l + nsum r
+
+-------------------------------------------
+-- | map equivalent for Tree
+tmap :: (a -> b) -> Tree a -> Tree b
+tmap func Leaf  = Leaf
+tmap func (Branch v l r) = Branch (func v) (tmap func l) (tmap func r)
+
+-------------------------------------------
+-- | Find min in a Tree
+minVal :: (Eq a, Ord a) => Tree a -> a
+minVal (Branch v Leaf _) = v
+minVal (Branch _ l _) = minVal l
+
+-------------------------------------------
+-- | Remove element from a Tree
+remove :: (Eq a, Ord a) => Tree a -> a -> Tree a
+remove (Branch v l r) to_remove | to_remove < v = Branch v (remove l to_remove) r
+                                | to_remove > v = Branch v l (remove r to_remove)
+
+remove (Branch _ Leaf Leaf)  _ = Leaf
+remove (Branch _ l Leaf) _ = l
+remove (Branch _ Leaf r) _ = r
+
+remove (Branch _ l r) _ = Branch min l r'
+  where
+    min = minVal r
+    r' = remove r min
+
+-------------------------------------------
+-- | Merge two Trees
+merge :: (Ord a) => Tree a -> Tree a -> Tree a
+merge tree Leaf = tree
+merge Leaf tree = tree
+merge tree (Branch v l r) = insert merged2 v
+  where merged1 = merge tree l
+        merged2 = merge merged1 r
 
