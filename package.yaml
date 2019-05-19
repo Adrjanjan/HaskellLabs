@@ -30,6 +30,7 @@ executables:
     - -with-rtsopts=-N
     dependencies:
     - HaskellLabs
+    - containers
 
 tests:
   HaskellLabs-test:
